@@ -11,17 +11,15 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
-
 def pregunta_01():
-    """
-    Retorne la suma de la segunda columna.
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        suma = sum([int(x[1]) for x in datos])
+    
+    return suma
 
-    Rta/
-    214
 
-    """
-    return
 
 
 def pregunta_02():
@@ -39,7 +37,19 @@ def pregunta_02():
     ]
 
     """
-    return
+    list_letras = []
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        letras = set([x[0] for x in datos])
+
+        for letra in letras:
+            cant_letras = [1 for x in datos if x[0]==letra]
+            list_letras.append((letra, sum(cant_letras)))
+
+    list_letras.sort(key= lambda x: x[0])
+
+    return list_letras
 
 
 def pregunta_03():
@@ -57,8 +67,19 @@ def pregunta_03():
     ]
 
     """
-    return
+    list_letras = []
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        letras = set([x[0] for x in datos])
 
+        for letra in letras:
+            cant_letras = [int(x[1]) for x in datos if x[0]==letra]
+            list_letras.append((letra, sum(cant_letras)))
+
+    list_letras.sort(key= lambda x: x[0])
+
+    return list_letras
 
 def pregunta_04():
     """
@@ -82,8 +103,17 @@ def pregunta_04():
     ]
 
     """
-    return
+    list_meses = []
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        
+        for mes in range(1, 13):
+            cant_meses = [1 for elemento in datos if int(elemento[2].split("-")[1]) == mes]
+            mes = str(mes).rjust(2, "0")
+            list_meses.append((str(mes), len(cant_meses)))
 
+    return list_meses
 
 def pregunta_05():
     """
@@ -99,8 +129,24 @@ def pregunta_05():
         ("E", 9, 1),
     ]
 
-    """
-    return
+    """    
+    list_letras = []
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        letras = set([x[0] for x in datos])
+
+        for letra in letras:
+            cant_letras = [int(x[1]) for x in datos if x[0]==letra]
+            max_l = max(cant_letras)
+            min_l = min(cant_letras)
+            list_letras.append((letra, max_l, min_l))
+
+    list_letras.sort(key= lambda x: x[0])
+
+    return list_letras
+
+
 
 
 def pregunta_06():
@@ -125,7 +171,31 @@ def pregunta_06():
     ]
 
     """
-    return
+    rta_dict = {}
+    my_list = []
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.replace("\n", "").split("\t") for linea in datos]
+        cad_dict = [linea[4].split(",") for linea in datos]
+
+        # Pasar cada elemento a un diccionario
+        for elementos in cad_dict:
+            
+            for elemento in elementos:
+                valores = elemento.split(":")
+                if valores[0] in rta_dict:
+                    rta_dict[valores[0]] += [int(valores[1])]
+                else:
+                    rta_dict[valores[0]] = [int(valores[1])]
+        
+        for llave, valor in rta_dict.items():
+            my_list.append((llave, min(valor), max(valor)))
+
+        my_list.sort(key=lambda x: x[0])
+
+
+    return my_list
+
 
 
 def pregunta_07():
@@ -149,8 +219,20 @@ def pregunta_07():
     ]
 
     """
-    return
+  
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        
+        my_letters = []
+        for i in range(10):
 
+            letras = [linea[0] for linea in datos if int(linea[1]) == i]
+            my_letters.append((i, letras))
+            letras = []
+
+    
+    return my_letters
 
 def pregunta_08():
     """
@@ -174,7 +256,23 @@ def pregunta_08():
     ]
 
     """
-    return
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+        
+        my_letters = []
+        for i in range(10):
+
+            letras = set(linea[0] for linea in datos if int(linea[1]) == i)
+            letras = list(letras)
+            letras.sort()
+            my_letters.append((i, letras))
+      
+
+    return my_letters
+
+
+
 
 
 def pregunta_09():
@@ -197,8 +295,25 @@ def pregunta_09():
     }
 
     """
-    return
+    rta_dict = {}
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.replace("\n", "").split("\t") for linea in datos]
+        cad_dict = [linea[4].split(",") for linea in datos]
 
+        # Pasar cada elemento a un diccionario
+        for elementos in cad_dict:
+            
+            for elemento in elementos:
+                valores = elemento.split(":")
+                if valores[0] in rta_dict:
+                    rta_dict[valores[0]] += 1
+                else:
+                    rta_dict[valores[0]] = 1
+
+        rta_dict = dict(sorted(rta_dict.items()))
+
+    return rta_dict
 
 def pregunta_10():
     """
@@ -218,7 +333,19 @@ def pregunta_10():
 
 
     """
-    return
+    my_list = []
+
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+
+        for linea in datos: 
+            col_cnco = linea[4].count(",") + 1
+            col_ctro = linea[3].count(",") + 1
+            my_list.append((linea[0], col_ctro, col_cnco))
+    
+    return my_list
+    
 
 
 def pregunta_11():
@@ -239,7 +366,24 @@ def pregunta_11():
 
 
     """
-    return
+    my_dict = {}
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.split("\t") for linea in datos]
+
+        for linea in datos:
+            letras = linea[3].split(",")
+
+            for letra in letras:
+                if letra in my_dict:
+                    my_dict[letra] += int(linea[1])
+                else:
+                    my_dict[letra] = int(linea[1])
+        
+    my_dict = dict(sorted(my_dict.items()))
+    return my_dict
+
+
 
 
 def pregunta_12():
@@ -257,4 +401,27 @@ def pregunta_12():
     }
 
     """
-    return
+    rta_dict = {}
+    with open("./data.csv") as data:
+        datos = data.readlines()
+        datos = [linea.replace("\n", "").split("\t") for linea in datos]
+        cad_dict = [linea[4].split(",") for linea in datos]
+
+        # Pasar cada elemento a un diccionario
+        for linea in datos:
+            col_cin = linea[4].split(",")
+            sum_col = sum([int(x[4::]) for x in col_cin])
+
+            if linea[0] in rta_dict:
+                
+                rta_dict[linea[0]] += sum_col
+            else:
+                rta_dict[linea[0]] = sum_col
+
+        rta_dict = dict(sorted(rta_dict.items()))
+    return rta_dict
+
+   
+
+
+
